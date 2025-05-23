@@ -6,7 +6,7 @@ export async function executeBinary(params: HasFourAdjacentCellsFreeRequest): Pr
   return new Promise((resolve, reject) => {
     const binaryPath = process.env.MAP_TOOLS_BINARY_PATH;
     const mapBinsPath = process.env.MAP_TOOLS_MAPS_PATH;
-    
+
     if (!binaryPath) {
       reject(new Error('MAP_TOOLS_BINARY_PATH n\'est pas défini dans les variables d\'environnement'));
       return;
@@ -14,7 +14,7 @@ export async function executeBinary(params: HasFourAdjacentCellsFreeRequest): Pr
 
     // Préparer les arguments pour le binaire
     const args = [
-      `${mapBinsPath}\\map_${params.mapId}.bin`, // Chemin vers le fichier de la map
+      `${mapBinsPath}/map_${params.mapId}.bin`, // Chemin vers le fichier de la map
       'hasFourAdjacentCellsFree',
       params.cellId.toString()
     ];
@@ -25,7 +25,7 @@ export async function executeBinary(params: HasFourAdjacentCellsFreeRequest): Pr
     }
 
     const child = spawn(binaryPath, args);
-    
+
     let stdout = '';
     let stderr = '';
 
