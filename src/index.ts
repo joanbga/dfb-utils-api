@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import apiRouter from './routes/api';
-import { checkDirectoryExistsSync, checkFileExistsSync } from './utils/fs';
+import cors from 'cors';
 import { checkEnvs } from './utils/checkEnvs';
 
 // Charger les variables d'environnement
@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 checkEnvs();
 
+app.use(cors());
 // Middleware pour parser le JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
