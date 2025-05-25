@@ -1,41 +1,8 @@
-import { spawn } from "child_process";
-import { GetLosCellsRequest, GetMapDataRequest, HasFourAdjacentCellsFreeRequest } from "../types/mapTools";
 
-function executeCommand(args: string[]): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const binaryPath = process.env.MAP_TOOLS_BINARY_PATH;
+import { GetLosCellsRequest, GetMapDataRequest, HasFourAdjacentCellsFreeRequest } from "../types/mapTools.type";
+import { executeCommand } from "./binTools";
 
-    if (!binaryPath) {
-      reject(new Error('MAP_TOOLS_BINARY_PATH n\'est pas défini dans les variables d\'environnement'));
-      return;
-    }
 
-    const child = spawn(binaryPath, args);
-
-    let stdout = '';
-    let stderr = '';
-
-    child.stdout.on('data', (data) => {
-      stdout += data.toString();
-    });
-
-    child.stderr.on('data', (data) => {
-      stderr += data.toString();
-    });
-
-    child.on('close', (code) => {
-      if (code === 0) {
-        resolve(stdout.trim());
-      } else {
-        reject(new Error(`Erreur de commande : ${stderr || stdout}`));
-      }
-    });
-
-    child.on('error', (error) => {
-      reject(new Error(`Erreur lors de l'exécution de la commande : ${error.message}`));
-    });
-  });
-}
 
 // Fonction utilitaire pour exécuter le binaire
 export async function executehasFourAdjacentCellsFreeCommand(params: HasFourAdjacentCellsFreeRequest): Promise<any> {
@@ -43,6 +10,7 @@ export async function executehasFourAdjacentCellsFreeCommand(params: HasFourAdja
 
   // Préparer les arguments pour le binaire
   const args = [
+    "map",
     `${mapBinsPath}/map_${params.mapId}.bin`, // Chemin vers le fichier de la map
     'hasFourAdjacentCellsFree',
     params.cellId.toString()
@@ -61,6 +29,7 @@ export async function executeGetLosCellsCommand(params: GetLosCellsRequest): Pro
 
   // Préparer les arguments pour le binaire
   const args = [
+    "map",
     `${mapBinsPath}/map_${params.mapId}.bin`, // Chemin vers le fichier de la map
     'getLosCells',
     params.cellId.toString()
@@ -79,6 +48,7 @@ export async function executeGetMapDataJson(params: GetMapDataRequest): Promise<
 
   // Préparer les arguments pour le binaire
   const args = [
+    "map",
     `${mapBinsPath}/map_${params.mapId}.bin`, // Chemin vers le fichier de la map
     'getMapDataJson'
   ];

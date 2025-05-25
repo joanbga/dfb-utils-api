@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getLosCellsSchema, getMapDataSchema, hasFourAdjacentCellsFreeSchema } from '../../types/mapTools';
+import { getLosCellsSchema, getMapDataSchema, hasFourAdjacentCellsFreeSchema } from '../../types/mapTools.type';
 import { executeGetLosCellsCommand, executeGetMapDataJson, executehasFourAdjacentCellsFreeCommand } from '../../utils/mapTools';
 import { ApiResponse } from '../../types/api';
 import z from 'zod';
